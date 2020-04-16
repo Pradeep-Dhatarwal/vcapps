@@ -1,2 +1,0 @@
-# vcapps
-video conferencing application
