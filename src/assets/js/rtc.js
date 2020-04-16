@@ -1,7 +1,8 @@
-import helper from './helpers.js';
+
+import h from './helpers.js';
 
 window.addEventListener('load', ()=>{
-    const room = helper.getQString(location.href, 'room');
+    const room = h.getQString(location.href, 'room');
     const username = sessionStorage.getItem('username');
 
     if(!room){
@@ -66,9 +67,9 @@ window.addEventListener('load', ()=>{
                 if(data.description.type === 'offer'){
                     data.description ? await pc[data.sender].setRemoteDescription(new RTCSessionDescription(data.description)) : '';
 
-                    helper.getUserFullMedia().then(async (stream)=>{
+                    h.getUserFullMedia().then(async (stream)=>{
                         if(!document.getElementById('local').srcObject){
-                            helper.setLocalStream(stream);
+                            h.setLocalStream(stream);
                         }
 
                         //save my stream
@@ -95,17 +96,17 @@ window.addEventListener('load', ()=>{
 
 
             socket.on('chat', (data)=>{
-                helper.addChat(data, 'remote');
+                h.addChat(data, 'remote');
             })
         });
 
 
         function getAndSetUserStream(){
-            helper.getUserFullMedia().then((stream)=>{
+            h.getUserFullMedia().then((stream)=>{
                 //save my stream
                 myStream = stream;
     
-                helper.setLocalStream(stream);
+                h.setLocalStream(stream);
             }).catch((e)=>{
                 console.error(`stream error: ${e}`);
             });
@@ -124,13 +125,13 @@ window.addEventListener('load', ()=>{
 
 
             //add localchat
-            helper.addChat(data, 'local');
+            h.addChat(data, 'local');
         }
 
 
 
         function init(createOffer, partnerName){
-            pc[partnerName] = new RTCPeerConnection(helper.getIceServer());
+            pc[partnerName] = new RTCPeerConnection(h.getIceServer());
             
             if(screen && screen.getTracks().length){
                 screen.getTracks().forEach((track)=>{
@@ -145,7 +146,7 @@ window.addEventListener('load', ()=>{
             }
 
             else{
-                helper.getUserFullMedia().then((stream)=>{
+                h.getUserFullMedia().then((stream)=>{
                     //save my stream
                     myStream = stream;
     
@@ -153,7 +154,7 @@ window.addEventListener('load', ()=>{
                         pc[partnerName].addTrack(track, stream);//should trigger negotiationneeded event
                     });
     
-                    helper.setLocalStream(stream);
+                    h.setLocalStream(stream);
                 }).catch((e)=>{
                     console.error(`stream error: ${e}`);
                 });
@@ -225,11 +226,11 @@ window.addEventListener('load', ()=>{
                 switch(pc[partnerName].iceConnectionState){
                     case 'disconnected':
                     case 'failed':
-                        helper.closeVideo(partnerName);
+                        h.closeVideo(partnerName);
                         break;
                         
                     case 'closed':
-                        helper.closeVideo(partnerName);
+                        h.closeVideo(partnerName);
                         break;
                 }
             };
@@ -240,7 +241,7 @@ window.addEventListener('load', ()=>{
                 switch(pc[partnerName].signalingState){
                     case 'closed':
                         console.log("Signalling state is 'closed'");
-                        helper.closeVideo(partnerName);
+                        h.closeVideo(partnerName);
                         break;
                 }
             };
@@ -249,12 +250,12 @@ window.addEventListener('load', ()=>{
 
 
         function shareScreen(){
-            helper.shareScreen().then((stream)=>{
-                helper.toggleShareIcons(true);
+            h.shareScreen().then((stream)=>{
+                h.toggleShareIcons(true);
 
                 //disable the video toggle btns while sharing screen. This is to ensure clicking on the btn does not interfere with the screen sharing
                 //It will be enabled was user stopped sharing screen
-                helper.toggleVideoBtnDisabled(true);
+                h.toggleVideoBtnDisabled(true);
 
                 //save my screen stream
                 screen = stream;
@@ -275,14 +276,14 @@ window.addEventListener('load', ()=>{
 
         function stopSharingScreen(){
             //enable video toggle btn
-            helper.toggleVideoBtnDisabled(false);
+            h.toggleVideoBtnDisabled(false);
 
             return new Promise((res, rej)=>{
                 screen.getTracks().length ? screen.getTracks().forEach(track => track.stop()) : '';
 
                 res();
             }).then(()=>{
-                helper.toggleShareIcons(false);
+                h.toggleShareIcons(false);
                 broadcastNewTracks(myStream, 'video');
             }).catch((e)=>{
                 console.error(e);
@@ -292,7 +293,7 @@ window.addEventListener('load', ()=>{
 
 
         function broadcastNewTracks(stream, type, mirrorMode=true){
-            helper.setLocalStream(stream, mirrorMode);
+            h.setLocalStream(stream, mirrorMode);
 
             let track = type == 'audio' ? stream.getAudioTracks()[0] : stream.getVideoTracks()[0];
 
@@ -300,7 +301,7 @@ window.addEventListener('load', ()=>{
                 let pName = pc[p];
                 
                 if(typeof pc[pName] == 'object'){
-                    helper.replaceTrack(track, pc[pName]);
+                    h.replaceTrack(track, pc[pName]);
                 }
             }
         }
@@ -338,7 +339,7 @@ window.addEventListener('load', ()=>{
             mediaRecorder.onstop = function(){
                 toggleRecordingIcons(false);
 
-                helper.saveRecordedStream(recordedStream, username);
+                h.saveRecordedStream(recordedStream, username);
 
                 setTimeout(()=>{
                     recordedStream = [];
@@ -438,7 +439,7 @@ window.addEventListener('load', ()=>{
              * Get the stream based on selection and start recording
              */
             if(!mediaRecorder || mediaRecorder.state == 'inactive'){
-                helper.toggleModal('recording-options-modal', true);
+                h.toggleModal('recording-options-modal', true);
             }
 
             else if(mediaRecorder.state == 'paused'){
@@ -453,14 +454,14 @@ window.addEventListener('load', ()=>{
 
         //When user choose to record screen
         document.getElementById('record-screen').addEventListener('click', ()=>{
-            helper.toggleModal('recording-options-modal', false);
+            h.toggleModal('recording-options-modal', false);
 
             if(screen && screen.getVideoTracks().length){
                 startRecording(screen);
             }
 
             else{
-                helper.shareScreen().then((screenStream)=>{
+                h.shareScreen().then((screenStream)=>{
                     startRecording(screenStream);
                 }).catch(()=>{});
             }
@@ -469,14 +470,14 @@ window.addEventListener('load', ()=>{
 
         //When user choose to record own video
         document.getElementById('record-video').addEventListener('click', ()=>{
-            helper.toggleModal('recording-options-modal', false);
+            h.toggleModal('recording-options-modal', false);
             
             if(myStream && myStream.getTracks().length){
                 startRecording(myStream);
             }
 
             else{
-                helper.getUserFullMedia().then((videoStream)=>{
+                h.getUserFullMedia().then((videoStream)=>{
                     startRecording(videoStream);
                 }).catch(()=>{});
             }
