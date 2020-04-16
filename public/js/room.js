@@ -50,7 +50,9 @@ $( document ).ready(function() {
 function addRemoteVideo(stream, participantID) {
     var $videoBox = $("<div class='videoWrap' id='"+participantID+"'></div>");
     var $video = $("<video class='videoBox' autoplay></video>");
-    $video.attr({"src": window.URL.createObjectURL(stream), "autoplay": "autoplay"});
+		// $video.attr({"src": window.URL.createObjectURL(stream), "autoplay": "autoplay"});
+		$video.srcObject = localMediaStream;
+		$video.play();
     $videoBox.append($video);
 	$("#videosWrapper").append($videoBox);
 
