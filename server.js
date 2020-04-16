@@ -10,8 +10,8 @@ var nodestatic = require('node-static');
 var express = require('express');
 var path = require('path');
 
-var serverPort = process.env.OPENSHIFT_NODEJS_PORT || 1337
-var serverIpAddress = process.env.OPENSHIFT_NODEJS_IP || 'localhost'
+var serverPort = process.env.PORT || 1337
+// var serverIpAddress = process.env.OPENSHIFT_NODEJS_IP || 'localhost'
 var socketIoServer = '127.0.0.1';
 
 ////////////////////////////////////////////////
@@ -32,7 +32,7 @@ app.set('view engine', 'ejs');
 
 // Tell Server that we are actually rendering HTML files through EJS.
 app.engine('html', require('ejs').renderFile);
-var server=app.listen(serverPort, serverIpAddress, function(){
+var server=app.listen(serverPort,  function(){
     console.log("Express is running on port "+serverPort);
 });
 
