@@ -69,8 +69,8 @@
 
 .remote-video{
     position: relative;
-    object-fit: cover !important;
-    height: 300px;
+    object-fit: contain !important;
+    height: 250px;
 }
 
 
