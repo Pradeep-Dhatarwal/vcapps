@@ -12,8 +12,5 @@ app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.get('/', (req, res)=>{
     res.sendFile(__dirname+'/index.html');
 });
-
-
 io.of('/stream').on('connection', stream);
-
 server.listen(process.env.PORT);
