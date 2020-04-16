@@ -1,7 +1,7 @@
 {
   "name": "livestream",
   "version": "0.0.1",
-  "description": "conf call",
+  "description": "livesteam",
   "main": "src/app.js",
   "dependencies": {
     "express": "^4.17.1",
@@ -15,3 +15,4 @@
     "watch": "nodemon --watch \"src/\" --exec \"node src/app.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   }
+}
