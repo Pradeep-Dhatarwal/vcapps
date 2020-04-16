@@ -1,7 +1,7 @@
 {
-  "name": "livestreaming",
+  "name": "livestream",
   "version": "0.0.1",
-  "description": ".",
+  "description": "conf call",
   "main": "src/app.js",
   "dependencies": {
     "express": "^4.17.1",
@@ -12,15 +12,6 @@
     "nodemon": "^2.0.2"
   },
   "scripts": {
-    "start": "node  src/app.js",
     "watch": "nodemon --watch \"src/\" --exec \"node src/app.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "LiveStream",
-    "Server"
-  ],
-  "author": "",
-  "license": "",
-  "homepage": ""
-}
+  }
