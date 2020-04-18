@@ -93,7 +93,6 @@ window.addEventListener('load', ()=>{
                 }
             });
 
-
             socket.on('chat', (data)=>{
                 h.addChat(data, 'remote');
             })
@@ -126,8 +125,6 @@ window.addEventListener('load', ()=>{
             //add localchat
             h.addChat(data, 'local');
         }
-
-
 
         function init(createOffer, partnerName){
             pc[partnerName] = new RTCPeerConnection(h.getIceServer());
