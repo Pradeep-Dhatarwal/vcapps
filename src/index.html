@@ -57,12 +57,12 @@
           <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-mute' title="Mute">
               <i class="fa fa-microphone-alt text-white"></i>
           </button>
-          <button class="btn btn-sm rounded-0 btn-no-effect" id='share-screen' title="Share screen">
+          <!-- <button class="btn btn-sm rounded-0 btn-no-effect" id='share-screen' title="Share screen">
               <i class="fa fa-desktop text-white"></i>
           </button>
           <button class="btn btn-sm rounded-0 btn-no-effect" id='record' title="Record">
               <i class="fa fa-dot-circle text-white"></i>
-          </button>
+          </button> -->
           <button class="btn btn-sm text-white pull-right btn-no-effect" id='toggle-chat-pane'>
               <i class="fa fa-comment"></i> <span class="badge badge-danger very-small font-weight-lighter" id='new-chat-notification' hidden>New</span>
           </button>
@@ -93,7 +93,7 @@
           <div class="col-12 col-md-4 offset-md-4 mb-3" id='room-created'></div>
       </div>
   </div> -->
-  <div class="container-fluid" id='username-set' hidden>
+  <div class="container-fluid custom-modal" id='username-set' hidden>
       <div class="row">
           <div class="col-12 h4 mt-5 text-center">Your Name</div>
       </div>
@@ -110,6 +110,24 @@
           </div>
       </div>
   </div>
+  <div class="container-fluid room-comm" hidden>
+   
+    <div class="row">
+        <button class="btn btn-block mt-5 text-white pointer border-0" id='close-single-peer-btn' style="display: none;">Exit</button>
+        <div class="col-md-12 main" id='main-section'>                    
+            <div class="row mt-2 mb-2" id='videos'></div>
+        </div>
+        <div class="col-md-3 chat-col d-print-none mb-2 bg-info"  hidden>
+            <div class="row">
+                <div class="col-12 text-center h2 mb-3">CHAT</div>
+            </div>
+            <div id='chat-messages'></div>
+            <div class="row">
+                <textarea id='chat-input' class="form-control rounded-0 chat-box border-info" rows='3' placeholder="Type here..."></textarea>
+            </div>
+        </div>
+    </div>
+</div>
     <section>
       <nav class="container-fluid">
         <div class="row navbar">
@@ -184,7 +202,7 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-sm-4 my-2">
-            <div class="chat-box">
+            <div class="chat-box" id='chat-pane'>
               <div class="chat-header">
                 <div class="card-heading">
                   Chat
@@ -194,7 +212,7 @@
                   clear
                 </span>
               </div>
-              <div class="card-body">
+              <div class="card-body " id='chat-messages'>
                 <div class="row">
                   <div class="col-sm-9 ml-auto my-1">
                     <div class="sent-item">
@@ -239,11 +257,12 @@
               <div class="chat-footer">
                 <div class="row">
                   <div class="col-sm-10">
-                    <div class="chat-input">
+                    <div class="chat-input" >
                       <input
                         type="text"
                         placeholder="Type a message"
                         class="chat-input-field form-control-sm"
+                        id='chat-input' 
                       />
                       <span class="material-icons chat-input-attachment">
                         attachment
@@ -311,16 +330,16 @@
               <div class="bottom-icons">
                 <div class="icon-big btn location">
                   <span class="material-icons centered">
-                    place
+                    place 
                   </span>
                 </div>
-                <div class="icon-big btn camera">
-                  <span class="material-icons centered">
+                <div class="icon-big btn camera"  id='share-screen' title="Share screen">
+                  <span class="material-icons centered" >
                     screen_share
                   </span>
                 </div>
-                <div class="icon-big btn btn-primary">
-                  <span class="material-icons centered">
+                <div class="icon-big btn btn-primary" id='record' title="Record">
+                  <span class="material-icons centered"  >
                     videocam
                   </span>
                 </div>
