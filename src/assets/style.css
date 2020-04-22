@@ -172,14 +172,13 @@ span.indicator::before {
   box-shadow: 0px 3px 6px #00000017;
 }
 
-.chat-box,
-.video-box,
-.sketch-box {
+.chat-box, .video-box, .sketch-box {
   height: 400px;
   background-color: #eee;
   box-shadow: 0px 3px 6px #00000017;
   border-radius: 15px;
   position: relative;
+  overflow: hidden;
 }
 
 .chat-header,
@@ -344,8 +343,9 @@ input:focus .chat-input-field.form-control-sm {
   width: 100%;
 }
 footer {
-  position: absolute;
+  position: fixed;
   bottom: 0px;
+  background: #f3f3f3;
 }
 .login {
   background: #7474bf; /* fallback for old browsers */
@@ -370,4 +370,20 @@ footer {
   background-image: url("image/people-office-group-team.jpg");
   background-position: center;
   background-size: cover;
+}
+.conference-container {
+  overflow: hidden;
+  margin: -20px;
+  height: 355px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.video-container > video{
+  max-height: 355px;
+}
+.remote-video-element {
+    height: 60px;
+    border-radius: 6px;
+    margin-right: 5px;
 }

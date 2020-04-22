@@ -1,14 +1,19 @@
 // express server
 let express = require('express');
 let app = express();
+const https = require('https');
 
-
-let server = require('http').Server(app);
+const fs = require('fs');
+const key = fs.readFileSync('./key.pem');
+const cert = fs.readFileSync('./cert.pem');
+// const app = require("https-localhost")();
+const server = https.createServer({key: key, cert: cert }, app);
+// let server = require('http').Server(app);
 let io = require('socket.io')(server);
 let stream = require('./ws/stream');
 let path = require('path');
 let favicon = require('serve-favicon')
-let port = process.env.PORT || 3000;
+let port = process.env.PORT || 4433;
 
 app.use(favicon(path.join(__dirname, 'favicon.ico')));
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
@@ -21,5 +26,5 @@ app.get('/', (req, res)=>{
 io.of('/stream').on('connection', stream);
 
 server.listen(port , () =>{
-    console.log("server running on https://localhost:5000/")
+    console.log('server running on http://localhost:'+port)
 });
