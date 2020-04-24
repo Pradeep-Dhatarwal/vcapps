@@ -52,10 +52,25 @@ export default {
     getUserFullMedia(){
         if(this.userMediaAvailable()){
             return navigator.mediaDevices.getUserMedia({
-                video: { width:133,  height:100 }, 
+                // video: { width:133,  height:100 }, 
+                // audio: {
+                //     echoCancellation: true,
+                //     noiseSuppression: true
+                // }
+                video: {
+                    width: { min: 320, ideal: 480, max: 858 },
+                    height: { min: 200, ideal: 360, max: 480 },
+                    frameRate: { ideal: 24,min:5, max: 30 }
+                },
                 audio: {
                     echoCancellation: true,
-                    noiseSuppression: true
+                    noiseSuppression: true,
+                    sampleRate:44100,
+                    sampleSize:8,
+                    volume:0,
+                    channelCount:2,
+                    autoGainControl:true,
+                    latency:120
                 }
             });
         }
@@ -86,24 +101,13 @@ export default {
     shareScreen(){
         if(this.userMediaAvailable()){
             return navigator.mediaDevices.getDisplayMedia({
-                "video": {
-                    "width": {
-                        "min": "300",
-                        "max": "640"
-                    },
-                    "height": {
-                        "min": "200",
-                        "max": "480"
-                    },
-                    "frameRate": {
-                        "min": "5",
-                        "max": "10"
-                    }
+                video: {
+                    cursor: "always"
                 },
-                "audio": {
-                    "echoCancellation": true,
-                    "noiseSuppression": true,
-                    "sampleRate": 44100
+                audio: {
+                    echoCancellation: true,
+                    noiseSuppression: true,
+                    sampleRate: 44100
                 }
             });
         }
@@ -248,7 +252,7 @@ export default {
 
 
     singleStreamToggleMute(e){
-        if(e.target.innerHTML == `mic_off`){
+        if(e.target.innerHTML == `mic`){
             e.target.parentElement.parentElement.previousElementSibling.muted = false;
             e.target.innerHTML = "mic";
             // e.target.classList.remove('fa-microphone');
