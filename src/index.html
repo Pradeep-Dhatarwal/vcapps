@@ -51,12 +51,12 @@
   <nav class="navbar fixed-top bg-info rounded-0 d-none d-print-none">
       <div class="text-white">Video Call</div>
       <div class="pull-right room-comm" hidden>
-          <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-video' title="Hide Video">
+          <!-- <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-video' title="Hide Video">
               <i class="fa fa-video text-white"></i>
-          </button>
-          <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-mute' title="Mute">
+          </button> -->
+          <!-- <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-mute' title="Mute">
               <i class="fa fa-microphone-alt text-white"></i>
-          </button>
+          </button> -->
           <!-- <button class="btn btn-sm rounded-0 btn-no-effect" id='share-screen' title="Share screen">
               <i class="fa fa-desktop text-white"></i>
           </button>
@@ -288,8 +288,8 @@
             <div class="bottom-bar">
               <div class="bottom-icons">
                 <div class="icon-big btn location">
-                  <span class="material-icons centered">
-                    place 
+                  <span class="material-icons centered"  id='toggle-mute' title="Mute">
+                    mic
                   </span>
                 </div>
                 <div class="icon-big btn camera"  id='share-screen' title="Share screen">
@@ -297,11 +297,16 @@
                     screen_share
                   </span>
                 </div>
-                <div class="icon-big btn btn-primary" id='record' title="Record">
-                  <span class="material-icons centered"  >
+                <div class="icon-big btn btn-primary"  id='toggle-video' title="Hide Video">
+                  <span class="material-icons centered" >
                     videocam
                   </span>
                 </div>
+                <!-- <div class="icon-big btn btn-primary" id='record' title="Record">
+                  <span class="material-icons centered"  >
+                    videocam
+                  </span>
+                </div> -->
                 <div class="icon-big btn chat">
                   <span class="material-icons centered">
                     chat

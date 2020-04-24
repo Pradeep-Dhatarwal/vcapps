@@ -86,13 +86,24 @@ export default {
     shareScreen(){
         if(this.userMediaAvailable()){
             return navigator.mediaDevices.getDisplayMedia({
-                video: {
-                    cursor: "always"
+                "video": {
+                    "width": {
+                        "min": "300",
+                        "max": "640"
+                    },
+                    "height": {
+                        "min": "200",
+                        "max": "480"
+                    },
+                    "frameRate": {
+                        "min": "5",
+                        "max": "10"
+                    }
                 },
-                audio: {
-                    echoCancellation: true,
-                    noiseSuppression: true,
-                    sampleRate: 44100
+                "audio": {
+                    "echoCancellation": true,
+                    "noiseSuppression": true,
+                    "sampleRate": 44100
                 }
             });
         }
@@ -237,16 +248,16 @@ export default {
 
 
     singleStreamToggleMute(e){
-        if(e.target.classList.contains('fa-microphone')){
-            e.target.parentElement.previousElementSibling.muted = true;
-            e.target.classList.add('fa-microphone-slash');
-            e.target.classList.remove('fa-microphone');
+        if(e.target.innerHTML == `mic_off`){
+            e.target.parentElement.parentElement.previousElementSibling.muted = false;
+            e.target.innerHTML = "mic";
+            // e.target.classList.remove('fa-microphone');
         }
 
         else{
-            e.target.parentElement.previousElementSibling.muted = false;
-            e.target.classList.add('fa-microphone');
-            e.target.classList.remove('fa-microphone-slash');
+            e.target.parentElement.parentElement.previousElementSibling.muted = true;
+            e.target.innerHTML= "mic_off";
+            // e.target.classList.remove('fa-microphone-slash');
         }
     },
 

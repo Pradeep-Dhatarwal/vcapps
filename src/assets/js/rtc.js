@@ -199,19 +199,17 @@ window.addEventListener('load', ()=>{
                     // <i class="fa fa-microphone text-white pr-3 mute-remote-mic" title="Mute"></i>
                     //     <i class="fa fa-expand text-white expand-remote-video" title="Expand"></i>
                     controlDiv.innerHTML = `
-                        
                         <div class="icon btn btn-default">
-                          <span class="material-icons">
-                            videocam
-                          </span>
-                          <span class="indicator"></span>
+                            <span class="material-icons">
+                                videocam
+                            </span>
+                        <span class="indicator"></span>
                         </div>
                         <div class="icon btn btn-primary">
-                          <span class="material-icons mute-remote-mic" title="Mute">
-                            mic
-                          </span>
-                        </div>
-                        `;
+                            <span class="material-icons mute-remote-mic" title="Mute">
+                                mic
+                            </span>
+                        </div>`;
                     
                     //create a new div for card
                     // let cardDiv = document.createElement('div');
@@ -224,7 +222,7 @@ window.addEventListener('load', ()=>{
                     div.className = 'remote-video  videmax-card';
                     div.id = partnerName;
                     div.appendChild(newVid);
-                   div.appendChild(controlDiv);
+                    div.appendChild(controlDiv);
                     
                     //put div in videos elem
                     document.getElementById('videos').prepend(div);
@@ -384,18 +382,14 @@ window.addEventListener('load', ()=>{
             let elem = document.getElementById('toggle-video');
             
             if(myStream.getVideoTracks()[0].enabled){
-                e.target.classList.remove('fa-video');
-                e.target.classList.add('fa-video-slash');
+                e.target.innerHTML = 'videocam_off';
                 elem.setAttribute('title', 'Show Video');
-
                 myStream.getVideoTracks()[0].enabled = false;
             }
 
             else{
-                e.target.classList.remove('fa-video-slash');
-                e.target.classList.add('fa-video');
+                e.target.innerHTML = 'videocam';
                 elem.setAttribute('title', 'Hide Video');
-
                 myStream.getVideoTracks()[0].enabled = true;
             }
 
@@ -410,18 +404,16 @@ window.addEventListener('load', ()=>{
             let elem = document.getElementById('toggle-mute');
             
             if(myStream.getAudioTracks()[0].enabled){
-                e.target.classList.remove('fa-microphone-alt');
-                e.target.classList.add('fa-microphone-alt-slash');
+                // e.target.classList.remove('fa-microphone-alt');
+                e.target.innerHTML = 'mic_off' ;
                 elem.setAttribute('title', 'Unmute');
-
                 myStream.getAudioTracks()[0].enabled = false;
             }
 
             else{
-                e.target.classList.remove('fa-microphone-alt-slash');
-                e.target.classList.add('fa-microphone-alt');
+                // e.target.classList.remove('fa-microphone-alt-slash');
+                e.target.innerHTML = 'mic';
                 elem.setAttribute('title', 'Mute');
-
                 myStream.getAudioTracks()[0].enabled = true;
             }
 
