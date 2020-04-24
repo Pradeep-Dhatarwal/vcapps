@@ -52,7 +52,7 @@ export default {
     getUserFullMedia(){
         if(this.userMediaAvailable()){
             return navigator.mediaDevices.getUserMedia({
-                video: {width:480px , height: 360px}, 
+                video: { width:133,  height:100 }, 
                 audio: {
                     echoCancellation: true,
                     noiseSuppression: true
@@ -128,33 +128,42 @@ export default {
     
     addChat(data, senderType){
         let chatMsgDiv = document.querySelector('#chat-messages');
-        let contentAlign = 'justify-content-end';
+        let contentAlign = 'ml-auto';
+        let item = 'sent-item';
         let senderName = 'You';
         let msgBg = 'bg-white';
 
         if(senderType === 'remote'){
-            contentAlign = 'justify-content-start';
+            contentAlign = 'mr-auto';
             senderName = data.sender;
             msgBg = '';
-
+            item = 'recieved-item' 
             this.toggleChatNotificationBadge();
         }
 
         let infoDiv = document.createElement('div');
-        infoDiv.className = 'sender-info';
-        infoDiv.innerHTML = `${senderName} - ${moment().format('Do MMMM, YYYY h:mm a')}`;
-
+        infoDiv.className = `sender-info ${item}`;
+        infoDiv.innerHTML = data.msg;
+        
+        
+        let infoData = document.createElement("div")
+        infoData.className =   'info-row small'
+        infoData.append(
+                `${senderName} - ${moment().format('Do MMMM, YYYY h:mm a')}`
+            ); 
+        
         let colDiv = document.createElement('div');
-        colDiv.className = `col-10 card chat-card msg ${msgBg}`;
-        colDiv.innerHTML =  data.msg;
+        // colDiv.className = `col-10 card chat-card msg ${msgBg}`;
+        colDiv.className = `col-sm-9 ${contentAlign} my-1`;
+        // infoDiv.prepend(data.msg);
 
         let rowDiv = document.createElement('div');
-        rowDiv.className = `row ${contentAlign} mb-2`;
-
+        // rowDiv.className = `row ${contentAlign} mb-2`;
+        rowDiv.className = `row `;
 
         colDiv.appendChild(infoDiv);
         rowDiv.appendChild(colDiv);
-
+        infoDiv.appendChild(infoData);
         chatMsgDiv.appendChild(rowDiv);
 
         /**
@@ -267,7 +276,7 @@ export default {
 
 
 
-    setLocalStream(stream, mirrorMode=true){
+    setLocalStream(stream, mirrorMode=false){
         const localVidElem = document.getElementById('local');
         
         localVidElem.srcObject = stream;
