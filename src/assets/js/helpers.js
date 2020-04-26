@@ -57,6 +57,7 @@ export default {
                 //     echoCancellation: true,
                 //     noiseSuppression: true
                 // }
+                
                 video: {
                     width: { min: 320, ideal: 480, max: 858 },
                     height: { min: 200, ideal: 360, max: 480 },
