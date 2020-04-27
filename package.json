@@ -2,10 +2,14 @@
   "name": "livestream-server",
   "version": "0.0.1",
   "description": "A conference call implementation using WebRTC, Socket.io and Node.js.",
-  "main": "src/app.js",
+  "main": "app.js",
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.1.2",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
     "https-localhost": "^4.5.2",
+    "request": "^2.88.2",
     "serve-favicon": "^2.5.0",
     "socket.io": "^2.3.0"
   },
@@ -13,7 +17,7 @@
     "nodemon": "^2.0.2"
   },
   "scripts": {
-    "start": "node src/app.js",
+    "start": "node app.js",
     "watch": "nodemon --watch \"src/\" --exec \"node src/app.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   }

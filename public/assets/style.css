@@ -1,0 +1,389 @@
+body {
+  background-color: #f3f3f3;
+}
+
+.my-1 {
+  margin: 1rem 0rem;
+}
+
+.my-2 {
+  margin: 1.2rem 0rem;
+}
+
+.my-3 {
+  margin: 1.4rem 0rem;
+}
+
+.my-4 {
+  margin: 1.6rem 0rem;
+}
+
+.my-5 {
+  margin: 1.8rem 0rem;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.row {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.btn-primary {
+  background-color: #0056b8;
+  color: #fff;
+}
+
+.container-fluid {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.grey-txt {
+  color: rgba(126, 126, 126, 1);
+}
+
+.logo {
+  white-space: nowrap;
+  text-align: left;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 1.5rem;
+  color: rgba(0, 86, 184, 1) !important;
+  text-transform: uppercase;
+}
+
+.duration,
+.meetid {
+  white-space: nowrap;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.1rem;
+  color: rgba(0, 86, 184, 1);
+}
+
+.duration {
+  text-align: center;
+}
+
+.meetid {
+  text-align: right;
+}
+.videmax-card-list {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.videmax-card {
+  border-radius: 10px;
+  padding: 5px;
+  display: flex;
+  height: 70px;
+  margin: 0px 8px;
+  background-color: #fff;
+  box-shadow: 0px 3px 6px #00000033;
+}
+
+.videmax-card:first-child {
+  margin: 0px 8px 0px 0px;
+}
+
+.videmax-card:last-child {
+  margin: 0px 0px 0px 8px;
+}
+
+.videmax-image {
+  overflow: hidden;
+  height: 60px;
+  margin-right: 7px;
+}
+
+.videmax-icons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.icon {
+  width: 26px;
+  border-radius: 40px;
+  height: 26px;
+  position: relative;
+  text-align: center;
+  box-shadow: 0px 2px 2px #00000033;
+}
+
+.icon:last-child {
+  align-items: flex-end;
+}
+
+.videmax-icons > .icon .material-icons {
+  font-size: 15px;
+}
+
+.icon .material-icons,
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+span.indicator::before {
+  content: " ";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  left: 21px;
+  border-radius: 5px;
+  background-color: #00ff00;
+}
+
+.add-call {
+  width: 80px;
+  position: relative;
+}
+
+.navbar {
+  justify-content: space-between;
+}
+
+.btn:hover,
+.material-icons {
+  cursor: pointer;
+}
+
+.chat,
+.video,
+.sketch {
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0px 3px 6px #00000017;
+}
+
+.chat-box, .video-box, .sketch-box {
+  height: 400px;
+  background-color: #eee;
+  box-shadow: 0px 3px 6px #00000017;
+  border-radius: 15px;
+  position: relative;
+  overflow: hidden;
+}
+
+.chat-header,
+.video-header,
+.sketch-header {
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0px 3px 6px #00000017;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px;
+  border-radius: 15px 15px 0px 0px;
+}
+
+.card-heading {
+  white-space: nowrap;
+  text-align: left;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  color: rgba(0, 86, 184, 1);
+}
+.chat-box > .card-body {
+  overflow: auto;
+  height: 296px;
+}
+.card-icon {
+  color: rgba(0, 86, 184, 1);
+}
+.sent-item,
+.recieved-item {
+  color: #535353;
+  background-color: #efefef;
+}
+
+.recieved-item {
+  text-align: left;
+  width: fit-content;
+  padding: 3px 15px;
+  background-color: var(--primary);
+  color: #fff;
+  border-radius: 11px;
+  font-size: 0.8rem;
+}
+.sent-item {
+  width: fit-content;
+  float: right;
+  padding: 3px 15px;
+  background-color: var(--primary);
+  color: #fff;
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+.sent-item::after {
+  content: " ";
+  width: 8px;
+  height: 8px;
+  right: 12px;
+  top: 8px;
+  position: absolute;
+  transform: rotate(45deg);
+  background-color: #007bff;
+}
+.recieved-item::after {
+  content: " ";
+  width: 8px;
+  height: 8px;
+  left: 12px;
+  bottom: 8px;
+  position: absolute;
+  transform: rotate(45deg);
+  background-color: #007bff;
+}
+.chat-footer {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  padding: 15px;
+}
+.chat-input {
+  background-color: #fff;
+  box-shadow: 0px 3px 6px #00000017;
+  padding: 5px 15px;
+  display: flex;
+  border-radius: 50px;
+  align-items: center;
+}
+input.chat-input-field {
+  width: -webkit-fill-available;
+}
+.chat-input-attachment {
+  transform: rotate(-127deg);
+  color: #a5a5a5;
+}
+input.chat-input-field.form-control-sm {
+  border: none;
+}
+input:focus .chat-input-field.form-control-sm {
+  border: none;
+}
+.icon-lg {
+  width: 40px;
+  border-radius: 40px;
+  height: 40px;
+  position: relative;
+  text-align: center;
+  box-shadow: 0px 2px 2px #00000033;
+}
+.img-thumbnail {
+  max-width: 22%;
+}
+.bottom-bar {
+  height: 49px;
+  background-color: white;
+  border-radius: 50px 50px 0px 0px;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+}
+.bottom-icons {
+  position: absolute;
+  width: 100%;
+  top: -20px;
+  display: flex;
+  justify-content: space-evenly;
+}
+.icon-big {
+  width: 50px;
+  border-radius: 50px;
+  height: 50px;
+  position: relative;
+  text-align: center;
+  margin: 0px 4px;
+  box-shadow: 0px 2px 2px #00000033;
+}
+.btn-big {
+  border-radius: 50px;
+  height: 50px;
+  width: 80px;
+  position: relative;
+  text-align: center;
+  box-shadow: 0px 2px 2px #00000033;
+}
+.location {
+  color: #ff0000;
+  background-color: #fff;
+}
+.camera {
+  color: rgb(31, 54, 156);
+  background-color: #fff;
+}
+.chat {
+  color: #fff;
+  background-color: #5700b8;
+}
+.files {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+footer {
+  position: fixed;
+  bottom: 0px;
+  background: #f3f3f3;
+}
+.login {
+  background: #7474bf; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #348ac7,
+    #7474bf
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #348ac7,
+    #7474bf
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  min-height: 100vh;
+}
+.box {
+  background-color: #eeeeee;
+  width: 90vw;
+}
+.login-bg {
+  background-repeat: no-repeat;
+  background-image: url("image/people-office-group-team.jpg");
+  background-position: center;
+  background-size: cover;
+}
+.conference-container {
+  overflow: hidden;
+  margin: -20px;
+  height: 355px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.video-container > video{
+  max-height: 355px;
+}
+.remote-video-element {
+    height: 60px;
+    border-radius: 6px;
+    margin-right: 5px;
+}
