@@ -12,7 +12,7 @@ app.use(session({secret: 'uitisawesome', resave : true, saveUninitialized:true})
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 const https = require('https');
-
+var http = require('http');
 const fs = require('fs');
 var ssl = {
     key:fs.readFileSync('./isotalkcerts/privateKey.pem', 'utf8'),
@@ -45,14 +45,60 @@ app.get('/login',function(req,res){
 
 
 app.post('/login',function(req,res){
+    var data = JSON.stringify( {
+        'Email' : req.body.Email ,
+        'Password' : req.body.Password
+    });
 
 
-    var proxyRequest = https.request({
-        host: 'http://isotalks.isoping.com/',
+
+
+console.log(data);
+console.log(req.body);
+
+    var options = {
+        host: 'isotalks.isoping.com',
         port: 7878,
-        method: 'POST',
         path: '/api/IsoTalks/UserLogin',
-        json : true
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': Buffer.byteLength(data)
+        }
+    };
+    
+    var httpreq = http.request(options, function (response) {
+        response.setEncoding('utf8');
+        response.on('data', function (chunk) {
+            console.log("body: " + chunk);
+        });
+        response.on('end', function() {
+            res.send('ok');
+        })
+    });
+        httpreq.write(data);
+        httpreq.end();
+        req.session.email = req.body.email;
+        res.end('done');
+        res.redirect(`/`)
+});
+
+
+app.get("/register", (req, res) => {
+    res.render(`register`)
+});
+
+
+app.post("/register", (req, res) => {
+    var proxyRequest = https.request({
+        host: 'isotalks.isoping.com',
+        port: 7878 ,
+        method: 'POST',
+        path: '/api/IsoTalks/UserRegistration',
+        headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': data.length
+        }
     },
     function (error , proxyResponse , body) {
         if(!error){
@@ -65,41 +111,9 @@ app.post('/login',function(req,res){
     });
     proxyRequest.write(res.body);
     proxyRequest.end();
-
-
-
-    req.session.email = req.body.email;
-    res.end('done');
-    res.redirect(`/`)
 });
 
 
-app.get("/register", (req, res) => {
-    res.render(`register`)
-});
-
-
-app.post("/register", (req, res) => {
-    var proxyRequest = https.request({
-        host: 'http://isotalks.isoping.com/',
-        port: 7878 ,
-        method: 'POST',
-        path: '/api/IsoTalks/UserRegistration',
-        responseType: 'buffer'
-    },
-    function (error , proxyResponse , body) {
-        if(!error){
-            proxyResponse.on('body', function (chunk) {
-                res.send(chunk);
-            });
-        } else {
-            console.log(error);
-        }
-    });
-    proxyRequest.write(res.body);
-    proxyRequest.end();
-
-});
 app.get("*", (req, res) => {
     res.send(" <h1 style='position:absolute; top:50%;left:50%;transform:translate(-50%,-50%)' >Error 404</h1>")
 });
