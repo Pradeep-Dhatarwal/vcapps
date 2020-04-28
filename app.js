@@ -45,7 +45,10 @@ app.get('/login',function(req,res){
 
 
 app.post('/login',function(req,res){
-   
+
+    if(req.body.Email == '' || req.body.Password == ''){
+        res.render('login');
+    } else {
   request.post({
         "headers": { "content-type": "application/json" },
         "url": "http://isotalks.isoping.com:7878/api/IsoTalks/UserLogin",
@@ -58,13 +61,21 @@ app.post('/login',function(req,res){
             return console.dir(error);
         }
         else{
-            req.session.email =body.Data;
-            res.redirect(`/`);
-            res.end(body);
-        console.dir(JSON.parse(body));
+            var loginresponse = JSON.parse(body);
+            if (loginresponse.Result.Flag == "0"){
+                console.log(loginresponse)
+                res.redirect(`login`);
+                res.end(body);
+            } else {
+                req.session.email = loginresponse.Data.Email;
+                console.log(loginresponse)
+                res.redirect(`/`);
+                res.end(body);
+            }
+
         }
     });
-
+}
 });
 
 
@@ -74,28 +85,38 @@ app.get("/register", (req, res) => {
 
 
 app.post("/register", (req, res) => {
-    var proxyRequest = https.request({
-        host: 'isotalks.isoping.com',
-        port: 7878 ,
-        method: 'POST',
-        path: '/api/IsoTalks/UserRegistration',
-        headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': data.length
+
+
+    if( req.body.Name == '' || req.body.Registeremail == '' || req.body.Phone == ''){
+        res.render('register');
+    } else {
+  request.post({
+        "headers": { "content-type": "application/json" },
+        "url": "http://isotalks.isoping.com:7878/api/IsoTalks/UserRegistration",
+        "body": JSON.stringify({
+            "Name": req.body.Name ,
+            "Email": req.body.Registeremail ,
+            "Phone": req.body.Phone
+        })
+    }, (error, response, body) => {
+        if(error) {
+            return console.dir(error);
         }
-    },
-    function (error , proxyResponse , body) {
-        if(!error){
-            proxyResponse.on('data', function (chunk) {
-                res.send(chunk);
-            });
-        } else {
-            console.log(error);
+        else{
+            var registerresponse = JSON.parse(body);
+            if (registerresponse.Result.Flag == "0"){
+                console.log(registerresponse)
+                res.redirect(`register`);
+                res.end(body);
+            } else {
+                console.log(registerresponse)
+                res.redirect(`login`);
+                res.end(body);
+            }
+
         }
     });
-    proxyRequest.write(res.body);
-    proxyRequest.end();
-});
+}});
 
 
 app.get("*", (req, res) => {
