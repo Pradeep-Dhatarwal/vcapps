@@ -48,6 +48,7 @@
                     <input
                       type="text"
                       placeholder="email"
+                      id="txtemail"
                       class="chat-input-field form-control-sm"
                       name="Email"
                     />
@@ -62,6 +63,7 @@
                     <input
                       type="text"
                       placeholder="password"
+                      id="txtPassword"
                       class="chat-input-field form-control-sm"
                       name="Password"
                     />
@@ -71,7 +73,7 @@
                   </div>
                 </div>
                 <input
-                  type="submit"
+                  type="button"
                   class="btn btn-block btn-primary mt-3 btn-big"
                   name="submit"
                   id="login"
@@ -119,5 +121,25 @@
       crossorigin="anonymous"
     ></script>
     <script src="script.js"></script>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> 
+    <script>
+    $(document).ready(function(){
+        var email, password;
+
+        $("#login").click(function(){
+            email = $("#txtemail").val();
+            password = $("#txtPassword").val();
+            $.post("http://localhost:3433/login", {
+                Email: email,
+                Password: password
+            }, function(data) {  
+                if(data==='done') {
+                    window.location.href="/";
+                }
+            });
+        });
+    });
+    </script>
   </body>
 </html>

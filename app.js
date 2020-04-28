@@ -45,63 +45,26 @@ app.get('/login',function(req,res){
 
 
 app.post('/login',function(req,res){
-
-    var data = JSON.stringify( {
-        email : req.body.Email ,
-        password : req.body.Password
+   
+  request.post({
+        "headers": { "content-type": "application/json" },
+        "url": "http://isotalks.isoping.com:7878/api/IsoTalks/UserLogin",
+        "body": JSON.stringify({
+            "Email": req.body.Email ,
+            "Password": req.body.Password
+        })
+    }, (error, response, body) => {
+        if(error) {
+            return console.dir(error);
+        }
+        else{
+            req.session.email =body.Data;
+            res.redirect(`/`);
+            res.end(body);
+        console.dir(JSON.parse(body));
+        }
     });
 
-    var options = {
-      'method': 'POST',
-      'url': 'http://isotalks.isoping.com:7878/api/IsoTalks/UserLogin',
-      'headers': {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      form:  data
-    };
-    request(options, function (error, response) { 
-      if (error) throw new Error(error);
-      console.log(response.body);
-    });
-
-
-
-
-
-//     var data = JSON.stringify( {
-//         Email : req.body.Email ,
-//         Password : req.body.Password
-//     });
-// console.log(data);
-// console.log(req.body);
-//     var options = {
-//         host: 'isotalks.isoping.com',
-//         port: 7878,
-//         path: '/api/IsoTalks/UserLogin',
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/x-www-form-urlencoded',
-//             // 'Content-Length': Buffer.byteLength(data)
-//         }
-//     };
-    
-//     var httpreq = http.request(options, function (response) {
-//         response.setEncoding('utf8');
-//         response.on('data', function (chunk) {
-//             console.log("body: " + chunk);
-//         });
-//         response.on('end', function() {
-//             res.send('ok');
-//         })
-//     });
-//         httpreq.write(data);
-//         httpreq.end();
-
-
-
-        req.session.email = req.body.email;
-        res.end('done');
-        res.redirect(`/`)
 });
 
 
@@ -136,7 +99,7 @@ app.post("/register", (req, res) => {
 
 
 app.get("*", (req, res) => {
-    res.send(" <h1 style='position:absolute; top:50%;left:50%;transform:translate(-50%,-50%)' >Error 404</h1>")
+    res.send(" <h1 style='position:absolute; top:50%;left:50%;transform:translate(-50%,-50%)'>Error 404</h1>")
 });
 io.of('/stream').on('connection', stream);
 
