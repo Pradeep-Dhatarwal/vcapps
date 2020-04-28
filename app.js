@@ -1,6 +1,7 @@
 var express = require('express');
 var session = require('express-session');
 var bodyParser = require('body-parser');
+var request = require('request');
 var app = express();
 
 
@@ -12,7 +13,6 @@ app.use(session({secret: 'uitisawesome', resave : true, saveUninitialized:true})
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 const https = require('https');
-var http = require('http');
 const fs = require('fs');
 var ssl = {
     key:fs.readFileSync('./isotalkcerts/privateKey.pem', 'utf8'),
@@ -45,39 +45,60 @@ app.get('/login',function(req,res){
 
 
 app.post('/login',function(req,res){
+
     var data = JSON.stringify( {
-        'Email' : req.body.Email ,
-        'Password' : req.body.Password
+        email : req.body.Email ,
+        password : req.body.Password
     });
-
-
-
-
-console.log(data);
-console.log(req.body);
 
     var options = {
-        host: 'isotalks.isoping.com',
-        port: 7878,
-        path: '/api/IsoTalks/UserLogin',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Content-Length': Buffer.byteLength(data)
-        }
+      'method': 'POST',
+      'url': 'http://isotalks.isoping.com:7878/api/IsoTalks/UserLogin',
+      'headers': {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      form:  data
     };
-    
-    var httpreq = http.request(options, function (response) {
-        response.setEncoding('utf8');
-        response.on('data', function (chunk) {
-            console.log("body: " + chunk);
-        });
-        response.on('end', function() {
-            res.send('ok');
-        })
+    request(options, function (error, response) { 
+      if (error) throw new Error(error);
+      console.log(response.body);
     });
-        httpreq.write(data);
-        httpreq.end();
+
+
+
+
+
+//     var data = JSON.stringify( {
+//         Email : req.body.Email ,
+//         Password : req.body.Password
+//     });
+// console.log(data);
+// console.log(req.body);
+//     var options = {
+//         host: 'isotalks.isoping.com',
+//         port: 7878,
+//         path: '/api/IsoTalks/UserLogin',
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/x-www-form-urlencoded',
+//             // 'Content-Length': Buffer.byteLength(data)
+//         }
+//     };
+    
+//     var httpreq = http.request(options, function (response) {
+//         response.setEncoding('utf8');
+//         response.on('data', function (chunk) {
+//             console.log("body: " + chunk);
+//         });
+//         response.on('end', function() {
+//             res.send('ok');
+//         })
+//     });
+//         httpreq.write(data);
+//         httpreq.end();
+
+
+
         req.session.email = req.body.email;
         res.end('done');
         res.redirect(`/`)
