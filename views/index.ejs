@@ -167,11 +167,12 @@
             
             <div class="videmax-card ml-auto">
               <div class="add-call" data-toggle="dropdown" >
-                <span class="material-icons centered">
+                
+                <span class="material-icons centered" id="createRoom">
                   group_add
                 </span>
               </div>
-              <div class=" dropdown-menu" id='room-create'>
+              <div class=" dropdown-menu" id='room-create' hidden>
                 <div class="row">
                     <div class="col-12 h2 mt-5 text-center">Create Room</div>
                 </div>
@@ -181,11 +182,11 @@
                     </div>
                     <div class="col-12 col-md-4 offset-md-4 mb-3">
                         <label for="room-name">Room Name</label>
-                        <input type="text" id='room-name' class="form-control rounded-0" placeholder="Room Name">
+                        <input type="text" id='room-name' class="form-control rounded-0"  value=" <%= userName + '\'s room' %> " placeholder="Room Name">
                     </div>
-                    <div class="col-12 col-md-4 offset-md-4 mb-3">
+                    <div class="col-12 col-md-4 offset-md-4 mb-3" hidden>
                         <label for="your-name">Your Name</label>
-                        <input type="text" id='your-name' class="form-control rounded-0" placeholder="Your Name">
+                        <input type="text" id='your-name' value="<%= userName %>" class="form-control rounded-0" placeholder="Your Name">
                     </div>
                     <div class="col-12 col-md-4 offset-md-4 mb-3">
                         <div id='create-room' class="btn btn-block rounded-0 btn-info">Create Room</div>
@@ -194,6 +195,7 @@
                 </div>
             </div>
             </div>
+
           </div>
         </div>
       </div>
@@ -288,10 +290,18 @@
             <div class="bottom-bar">
               <div class="bottom-icons">
                 <div class="icon-big btn location">
+                  <a href="/createroom">
+                    <span class="material-icons centered"  id='createRoom' title="Create Room">
+                      home
+                    </span>
+                  </a>
+                </div>
+                <div class="icon-big btn location">
                   <span class="material-icons centered"  id='toggle-mute' title="Mute">
                     mic
                   </span>
                 </div>
+
                 <div class="icon-big btn camera"  id='share-screen' title="Share screen">
                   <span class="material-icons centered" >
                     screen_share
@@ -353,6 +363,7 @@
       integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
       crossorigin="anonymous"
     ></script>
+
     <!-- <script src="script.js"></script> -->
   </body>
 </html>

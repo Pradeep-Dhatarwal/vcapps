@@ -19,7 +19,7 @@
   },
   "scripts": {
     "start": "node app.js",
-    "watch": "nodemon --watch \"src/\" --exec \"node src/app.js\"",
+    "watch": "nodemon --watch \"src/\" --exec \" node --inspect app.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   }
 }

@@ -27,20 +27,20 @@ let stream = require('./public/assets/ws/stream');
 
 let favicon = require('serve-favicon')
 
-let PORT = process.env.PORT || 3433;
+let PORT = process.env.PORT || 4433;
 
 app.use(favicon(path.join(__dirname, 'favicon.ico')));
 
 app.get('/',function(req,res){
-	if(!req.session.email) {
+	if(!req.session.Email) {
 	    res.redirect('login');
 	}
 	else {
-	    res.render('index');
+	    res.render('index', { userName  :  req.session.Name , userEmail : req.session.Email });
 	}
 });
 app.get('/login',function(req,res){
-    res.render('login')
+    res.render('login' )
 });
 
 
@@ -58,7 +58,7 @@ app.post('/login',function(req,res){
         })
     }, (error, response, body) => {
         if(error) {
-            return console.dir(error);
+            return console.log(error);
         }
         else{
             var loginresponse = JSON.parse(body);
@@ -67,8 +67,10 @@ app.post('/login',function(req,res){
                 res.redirect(`login`);
                 res.end(body);
             } else {
-                req.session.email = loginresponse.Data.Email;
-                console.log(loginresponse)
+                req.session.Email = loginresponse.Data.Email;
+                // req.session.Name = loginresponse.Data.Name || 'pradeep';
+                req.session.Name = "pradeep";
+                // console.log(loginresponse)
                 res.redirect(`/`);
                 res.end(body);
             }
@@ -118,6 +120,38 @@ app.post("/register", (req, res) => {
     });
 }});
 
+app.get("/createroom", (req, res) => {
+
+    if(!req.session.Email){
+        res.render('login');
+    } else {
+    request.post({
+        "headers": { "content-type": "application/json" },
+        "url": "http://isotalks.isoping.com:7878/api/IsoTalks/CreateRoom",
+        "body": JSON.stringify({
+            "Email": req.session.Email
+        })
+    }, (error, response, body) => {
+        if(error) {
+            return console.log(error);
+        }
+        else{
+            let roomResponse = JSON.parse(body);
+            if (roomResponse.Result.Flag == "0"){
+                console.log(roomResponse)
+                res.send(`index`);
+                res.end(body);
+            } else {
+                console.log(roomResponse)
+                res.send(`index`);
+                res.end(body);
+            }
+
+        }
+    });
+}
+
+});
 
 app.get("*", (req, res) => {
     res.send(" <h1 style='position:absolute; top:50%;left:50%;transform:translate(-50%,-50%)'>Error 404</h1>")
