@@ -1,164 +1,66 @@
-var express = require('express');
-var session = require('express-session');
-var bodyParser = require('body-parser');
-var request = require('request');
-var app = express();
+const express = require("express");
+const session = require("express-session");
+const bodyParser = require("body-parser");
+const app = express();
+const crypt = require("./crypt.js");
 
 
-let path = require('path');
-app.set('view engine', 'ejs');  
-app.set('views', path.join(__dirname, 'views'));
-app.use(express.static('./public'));
-app.use(session({secret: 'uitisawesome', resave : true, saveUninitialized:true}));
+
+
+
+
+
+let path = require("path");
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+app.use(express.static("./public"));
+app.use(session({ secret: "uitisawesome", resave: true, saveUninitialized: true }));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
-const https = require('https');
-const fs = require('fs');
+app.use(bodyParser.urlencoded({ extended: true }));
+const https = require("https");
+const fs = require("fs");
 var ssl = {
-    key:fs.readFileSync('./isotalkcerts/privateKey.pem', 'utf8'),
-    cert: fs.readFileSync('./isotalkcerts/isotalks.crt', 'utf8'),
-    ca: fs.readFileSync('./isotalkcerts/isotalksCA.crt', 'utf8')
-  };
+	key: fs.readFileSync("./isotalkcerts/privateKey.pem", "utf8"),
+	cert: fs.readFileSync("./isotalkcerts/isotalks.crt", "utf8"),
+	ca: fs.readFileSync("./isotalkcerts/isotalksCA.crt", "utf8"),
+};
 // const app = require("https-localhost")();
-const server = https.createServer( ssl , app);
+const server = https.createServer(ssl, app);
 // let server = require('http').Server(app);
-let io = require('socket.io')(server);
-let stream = require('./public/assets/ws/stream');
+let io = require("socket.io")(server);
+let stream = require("./public/assets/ws/stream");
 
-let favicon = require('serve-favicon')
+let favicon = require("serve-favicon");
 
-let PORT = process.env.PORT || 4433;
+let PORT = process.env.PORT || 3323;
 
-app.use(favicon(path.join(__dirname, 'favicon.ico')));
-
-app.get('/',function(req,res){
-	if(!req.session.Email) {
-	    res.redirect('login');
-	}
-	else {
-	    res.render('index', { userName  :  req.session.Name , userEmail : req.session.Email });
-	}
-});
-app.get('/login',function(req,res){
-    res.render('login' )
-});
+app.use(favicon(path.join(__dirname, "favicon.ico")));
 
 
-app.post('/login',function(req,res){
 
-    if(req.body.Email == '' || req.body.Password == ''){
-        res.render('login');
-    } else {
-  request.post({
-        "headers": { "content-type": "application/json" },
-        "url": "http://isotalks.isoping.com:7878/api/IsoTalks/UserLogin",
-        "body": JSON.stringify({
-            "Email": req.body.Email ,
-            "Password": req.body.Password
-        })
-    }, (error, response, body) => {
-        if(error) {
-            return console.log(error);
-        }
-        else{
-            var loginresponse = JSON.parse(body);
-            if (loginresponse.Result.Flag == "0"){
-                console.log(loginresponse)
-                res.redirect(`login`);
-                res.end(body);
-            } else {
-                req.session.Email = loginresponse.Data.Email;
-                // req.session.Name = loginresponse.Data.Name || 'pradeep';
-                req.session.Name = "pradeep";
-                // console.log(loginresponse)
-                res.redirect(`/`);
-                res.end(body);
-            }
 
-        }
-    });
-}
+app.get("/room", function (req, res) {
+	let pageUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+	let qs = pageUrl.split("?")[1];
+	// Wq1+ooBbt7as0r/KeSaZkcziNO55ujAM5whbDr4NYkd2TD9kAx0pcyt3o1xPGOzWb8qOJ3FRLgYdR8YmWW51g==
+	const decryptedText = crypt.decrypt(qs);
+	const encryptedContent = decryptedText.split("|N|");
+	req.session.roomNo = encryptedContent[0];
+	console.log(req.session.roomNo);
+	req.session.email = encryptedContent[1];
+	console.log(req.session.email);
+	req.session.name = encryptedContent[2];
+	console.log(req.session.name);
+	res.render( "index" , {
+		"email" : req.session.email,
+		"userName":req.session.name,
+		"roomid" : req.session.roomNo
+	} );
 });
 
+io.of("/stream").on("connection", stream);
 
-app.get("/register", (req, res) => {
-    res.render(`register`)
+server.listen(PORT, () => {
+	console.log("server running on https://localhost:" + PORT);
 });
-
-
-app.post("/register", (req, res) => {
-
-
-    if( req.body.Name == '' || req.body.Registeremail == '' || req.body.Phone == ''){
-        res.render('register');
-    } else {
-  request.post({
-        "headers": { "content-type": "application/json" },
-        "url": "http://isotalks.isoping.com:7878/api/IsoTalks/UserRegistration",
-        "body": JSON.stringify({
-            "Name": req.body.Name ,
-            "Email": req.body.Registeremail ,
-            "Phone": req.body.Phone
-        })
-    }, (error, response, body) => {
-        if(error) {
-            return console.dir(error);
-        }
-        else{
-            var registerresponse = JSON.parse(body);
-            if (registerresponse.Result.Flag == "0"){
-                console.log(registerresponse)
-                res.redirect(`register`);
-                res.end(body);
-            } else {
-                console.log(registerresponse)
-                res.redirect(`login`);
-                res.end(body);
-            }
-
-        }
-    });
-}});
-
-app.get("/createroom", (req, res) => {
-
-    if(!req.session.Email){
-        res.render('login');
-    } else {
-    request.post({
-        "headers": { "content-type": "application/json" },
-        "url": "http://isotalks.isoping.com:7878/api/IsoTalks/CreateRoom",
-        "body": JSON.stringify({
-            "Email": req.session.Email
-        })
-    }, (error, response, body) => {
-        if(error) {
-            return console.log(error);
-        }
-        else{
-            let roomResponse = JSON.parse(body);
-            if (roomResponse.Result.Flag == "0"){
-                console.log(roomResponse)
-                res.send(`index`);
-                res.end(body);
-            } else {
-                console.log(roomResponse)
-                res.send(`index`);
-                res.end(body);
-            }
-
-        }
-    });
-}
-
-});
-
-app.get("*", (req, res) => {
-    res.send(" <h1 style='position:absolute; top:50%;left:50%;transform:translate(-50%,-50%)'>Error 404</h1>")
-});
-io.of('/stream').on('connection', stream);
-
-
-server.listen(PORT , () =>{
-    console.log('server running on https://localhost:'+ PORT)
-});
+// https://localhost:3323/room?wEZ0H4K0XcRq3ztjxewfeGbyPSOMfkJC3fDjU4Al9maaevL5E8MkdceNvIrsdK7ypTvCHk06nKKs5obbvRdvgTv1Ro1yPeKCeslbzZMK0xtdIr1LDusVH5aVbZGV6Kkv4gp29UfwBo02fvVUHp8zdg==

@@ -63,8 +63,8 @@ window.addEventListener('load', ()=>{
             //save the user's name in sessionStorage
             sessionStorage.setItem('username', yourName);
             //create room link
-            let roomLink = `${location.origin}?room=${roomName.trim().replace(' ', '_')}_${helpers.generateRandomString()}`;
-            window. location. replace(roomLink) ;
+            // let roomLink = `${location.origin}?room=${roomName.trim().replace(' ', '_')}_${helpers.generateRandomString()}`;
+            // window. location. replace(roomLink) ;
             //show message with link to room
             // document.querySelector('#room-created').innerHTML = `Room successfully created. Click <a href='${roomLink}'>here</a> to enter room. 
             //     Share the room link with your partners.`;
@@ -78,12 +78,10 @@ window.addEventListener('load', ()=>{
             document.querySelector('#err-msg').innerHTML = "All fields are required";
         }
     });
-
-
-    //When the 'Enter room' button is clicked.
-    document.getElementById('enter-room').addEventListener('click', (e)=>{
-        e.preventDefault();
-
+    (function() {
+        // your page initialization code here
+        // the DOM will be available here
+     
         let name = document.querySelector('#username').value;
 
         if(name){
@@ -92,14 +90,17 @@ window.addEventListener('load', ()=>{
 
             //save the user's name in sessionStorage
             sessionStorage.setItem('username', name);
-
-            //reload room
-            location.reload();
         }
 
         else{
             document.querySelector('#err-msg-username').innerHTML = "Please input your name";
         }
+     })();
+
+    //When the 'Enter room' button is clicked.
+    document.getElementById('enter-room').addEventListener('click', (e)=>{
+        e.preventDefault();
+
     });
 
 

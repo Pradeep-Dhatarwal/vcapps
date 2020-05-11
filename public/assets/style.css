@@ -82,8 +82,9 @@ body {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: space-between;
+  overflow: auto;
 }
 .videmax-card {
   border-radius: 10px;
@@ -100,7 +101,7 @@ body {
 }
 
 .videmax-card:last-child {
-  margin: 0px 0px 0px 8px;
+  margin: 0px 0px 0px 0px;
 }
 
 .videmax-image {

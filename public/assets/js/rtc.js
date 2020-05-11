@@ -1,11 +1,10 @@
 import h from './helpers.js';
-
 window.addEventListener('load', ()=>{
-    const room = h.getQString(location.href, 'room');
-    const username = sessionStorage.getItem('username');
+    const room = document.querySelector("#sp_roomid").textContent;
+    // const room = h.getQString(location.href, 'room');
+    const username = document.querySelector("#username").value;
     //Start Sdp Control BandwidthHandler
     var BandwidthHandler = (function() {
-		
         function setBAS(sdp, bandwidth, isScreen) {
             if (!!navigator.mozGetUserMedia || !bandwidth) {
                 return sdp;
@@ -18,7 +17,6 @@ window.addEventListener('load', ()=>{
                     console.warn('It seems that you are using wrong bandwidth value for screen. Screen sharing is expected to fail.');
                 }
             }
-    
             // if screen; must use at least 300kbs
             if (bandwidth.screen && isScreen) {
                 sdp = sdp.replace(/b=AS([^\r\n]+\r\n)/g, '');
@@ -384,16 +382,16 @@ window.addEventListener('load', ()=>{
                     newVid.srcObject = str;
                     newVid.autoplay = true;
                     newVid.className = 'remote-video-element ';
+                    newVid.setAttribute("onclick", 'requestFullscreen()');
 
                     //video controls elements
                     let controlDiv = document.createElement('div');
                     controlDiv.className = 'remote-video-controls videmax-icons';
-                    // <i class="fa fa-microphone text-white pr-3 mute-remote-mic" title="Mute"></i>
-                    //     <i class="fa fa-expand text-white expand-remote-video" title="Expand"></i>
+               
                     controlDiv.innerHTML = `
                         <div class="icon btn btn-default">
-                            <span class="material-icons">
-                                videocam
+                            <span class="material-icons expand-remote-video" title="Expand">
+                                fullscreen
                             </span>
                         <span class="indicator"></span>
                         </div>
@@ -411,7 +409,7 @@ window.addEventListener('load', ()=>{
                     
                     //create a new div for everything
                     let div = document.createElement('div');
-                    div.className = 'remote-video  videmax-card';
+                    div.className = 'remote-video  videmax-card ';
                     div.id = partnerName;
                     div.appendChild(newVid);
                     div.appendChild(controlDiv);
