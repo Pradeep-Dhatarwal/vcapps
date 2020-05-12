@@ -1,6 +1,7 @@
 const express = require("express");
 const session = require("express-session");
 const bodyParser = require("body-parser");
+const request = require("request")
 const app = express();
 const crypt = require("./crypt.js");
 let path = require("path");
@@ -17,17 +18,13 @@ var ssl = {
 	cert: fs.readFileSync("./isotalkcerts/isotalks.crt", "utf8"),
 	ca: fs.readFileSync("./isotalkcerts/isotalksCA.crt", "utf8"),
 };
-// const app = require("https-localhost")();
 const server = https.createServer(ssl, app);
-// let server = require('http').Server(app);
 let io = require("socket.io")(server);
 let stream = require("./public/assets/ws/stream");
-
 let favicon = require("serve-favicon");
-
 let PORT = process.env.PORT || 3323;
-
 app.use(favicon(path.join(__dirname, "favicon.ico")));
+<<<<<<< Updated upstream
 
 function onConnection(socket){
 	socket.on('drawing', (data) => socket.broadcast.emit('drawing', data));
@@ -36,6 +33,8 @@ function onConnection(socket){
 
 
 
+=======
+>>>>>>> Stashed changes
 app.get("/room", function (req, res) {
 	let pageUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
 	let qs = pageUrl.split("?")[1];
@@ -55,10 +54,44 @@ app.get("/room", function (req, res) {
 	} );
 });
 
+<<<<<<< Updated upstream
 io.of("/stream").on("connection", stream);
 io.on('connection', onConnection);
 //var host="192.168.43.203";
+=======
+
+
+
+app.get("/leaveroom", (req,res)=>{
+
+request.post({
+		"headers": { "content-type": "application/json" },
+		"url": "http://isotalks.com:7878/api/IsoTalks/LeaveRoom",
+		"body": JSON.stringify({
+				"Email": req.session.Email ,
+				"RoomId": req.session.roomNo
+		})
+}, (error, response, body) => {
+		if(error) {
+				return console.dir(error);
+		}
+		else{
+				req.session.destroy();
+				res.redirect(`https://isotalks.com/profile`, 301);
+				res.end(body);
+		
+		}
+});});
+
+
+
+
+io.of("/stream").on("connection", stream);
+>>>>>>> Stashed changes
 server.listen(PORT, () => {
 	console.log("server running on https://localhost:" + PORT);
 });
+
+
+
 // https://localhost:3323/room?wEZ0H4K0XcRq3ztjxewfeGbyPSOMfkJC3fDjU4Al9maaevL5E8MkdceNvIrsdK7ypTvCHk06nKKs5obbvRdvgTv1Ro1yPeKCeslbzZMK0xtdIr1LDusVH5aVbZGV6Kkv4gp29UfwBo02fvVUHp8zdg==
