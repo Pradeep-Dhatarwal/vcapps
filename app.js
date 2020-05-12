@@ -3,13 +3,6 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const app = express();
 const crypt = require("./crypt.js");
-
-
-
-
-
-
-
 let path = require("path");
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -36,6 +29,10 @@ let PORT = process.env.PORT || 3323;
 
 app.use(favicon(path.join(__dirname, "favicon.ico")));
 
+function onConnection(socket){
+	socket.on('drawing', (data) => socket.broadcast.emit('drawing', data));
+  }
+  
 
 
 
@@ -59,7 +56,8 @@ app.get("/room", function (req, res) {
 });
 
 io.of("/stream").on("connection", stream);
-
+io.on('connection', onConnection);
+//var host="192.168.43.203";
 server.listen(PORT, () => {
 	console.log("server running on https://localhost:" + PORT);
 });
