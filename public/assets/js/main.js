@@ -1,12 +1,15 @@
 'use strict';
 
+
 (function() {
 
   var socket = io();
   var canvas = document.getElementsByClassName('whiteboard')[0];
   var colors = document.getElementsByClassName('color');
   var context = canvas.getContext('2d');
-
+  canvas.width = document.querySelector(".sketch-box").offsetWidth;
+  canvas.height = document.querySelector(".sketch-box").offsetHeight;
+console.log(context);
   var current = {
     color: 'black'
   };
@@ -29,7 +32,7 @@
 
   socket.on('drawing', onDrawingEvent);
 
-  window.addEventListener('resize', onResize, false);
+  canvas.addEventListener('resize', onResize, false);
   onResize();
 
 
@@ -99,8 +102,9 @@
 
   // make the canvas fill its parent
   function onResize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.width = document.querySelector(".sketch-box").offsetWidth;
+    canvas.height = document.querySelector(".sketch-box").offsetHeight;
+
   }
 
 })();

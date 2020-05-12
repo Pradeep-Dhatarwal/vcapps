@@ -24,17 +24,11 @@ let stream = require("./public/assets/ws/stream");
 let favicon = require("serve-favicon");
 let PORT = process.env.PORT || 3323;
 app.use(favicon(path.join(__dirname, "favicon.ico")));
-<<<<<<< Updated upstream
 
 function onConnection(socket){
 	socket.on('drawing', (data) => socket.broadcast.emit('drawing', data));
-  }
-  
-
-
-
-=======
->>>>>>> Stashed changes
+	}
+	
 app.get("/room", function (req, res) {
 	let pageUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
 	let qs = pageUrl.split("?")[1];
@@ -53,41 +47,30 @@ app.get("/room", function (req, res) {
 		"roomid" : req.session.roomNo
 	} );
 });
-
-<<<<<<< Updated upstream
-io.of("/stream").on("connection", stream);
-io.on('connection', onConnection);
-//var host="192.168.43.203";
-=======
-
-
-
 app.get("/leaveroom", (req,res)=>{
 
-request.post({
-		"headers": { "content-type": "application/json" },
-		"url": "http://isotalks.com:7878/api/IsoTalks/LeaveRoom",
-		"body": JSON.stringify({
-				"Email": req.session.Email ,
-				"RoomId": req.session.roomNo
-		})
-}, (error, response, body) => {
-		if(error) {
-				return console.dir(error);
-		}
-		else{
-				req.session.destroy();
-				res.redirect(`https://isotalks.com/profile`, 301);
-				res.end(body);
-		
-		}
-});});
-
-
-
+	request.post({
+			"headers": { "content-type": "application/json" },
+			"url": "http://isotalks.com:7878/api/IsoTalks/LeaveRoom",
+			"body": JSON.stringify({
+					"Email": req.session.Email ,
+					"RoomId": req.session.roomNo
+			})
+	}, (error, response, body) => {
+			if(error) {
+					return console.dir(error);
+			}
+			else{
+					req.session.destroy();
+					res.redirect(301 , `https://isotalks.com/profile`);
+					res.end(body);
+			
+			}
+	});});
 
 io.of("/stream").on("connection", stream);
->>>>>>> Stashed changes
+io.on('connection', onConnection);
+
 server.listen(PORT, () => {
 	console.log("server running on https://localhost:" + PORT);
 });
