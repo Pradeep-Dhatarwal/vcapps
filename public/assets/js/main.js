@@ -9,7 +9,11 @@
   var context = canvas.getContext('2d');
   canvas.width = document.querySelector(".sketch-box").offsetWidth;
   canvas.height = document.querySelector(".sketch-box").offsetHeight;
-console.log(context);
+  
+  var oy = Math.floor( document.querySelector(".sketch-box").getBoundingClientRect().y );
+  var ox = Math.floor( document.querySelector(".sketch-box").getBoundingClientRect().x );
+
+  console.log(context);
   var current = {
     color: 'black'
   };
@@ -60,8 +64,10 @@ console.log(context);
 
   function onMouseDown(e){
     drawing = true;
-    current.x = e.clientX||e.touches[0].clientX;
-    current.y = e.clientY||e.touches[0].clientY;
+    
+
+    current.x = (e.clientX) - ox || (e.touches[0].clientX) - ox;
+    current.y = (e.clientY ) - oy || (e.touches[0].clientY) - oy;
   }
 
   function onMouseUp(e){
@@ -97,13 +103,16 @@ console.log(context);
   function onDrawingEvent(data){
     var w = canvas.width;
     var h = canvas.height;
-    drawLine(data.x0 * w, data.y0 * h, data.x1 * w, data.y1 * h, data.color);
+    var oy = document.querySelector(".sketch-box").getBoundingClientRect().y;
+    var ox = document.querySelector(".sketch-box").getBoundingClientRect().x;
+
+    drawLine(data.x0 * w - ox, data.y0 * h - oy, data.x1 * w - ox, data.y1 * h - oy, data.color);
   }
 
   // make the canvas fill its parent
   function onResize() {
-    canvas.width = document.querySelector(".sketch-box").offsetWidth;
-    canvas.height = document.querySelector(".sketch-box").offsetHeight;
+    canvas.width = document.querySelector("canvas").offsetWidth;
+    canvas.height = document.querySelector("canvas").offsetHeight;
 
   }
 

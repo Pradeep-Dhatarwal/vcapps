@@ -62,7 +62,7 @@ app.get("/leaveroom", (req,res)=>{
 			}
 			else{
 					req.session.destroy();
-					res.redirect(301 , `https://isotalks.com/profile`);
+					res.redirect(301 , `https://isotalks.com/`);
 					res.end(body);
 			
 			}
