@@ -51,9 +51,9 @@ app.get("/leaveroom", (req,res)=>{
 
 	request.post({
 			"headers": { "content-type": "application/json" },
-			"url": "http://isotalks.com:7878/api/IsoTalks/LeaveRoom",
+			"url": "http://localhost:64174/api/IsoTalks/LeaveRoom",
 			"body": JSON.stringify({
-					"Email": req.session.Email ,
+					"Email": req.session.email ,
 					"RoomId": req.session.roomNo
 			})
 	}, (error, response, body) => {

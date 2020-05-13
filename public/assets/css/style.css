@@ -5,9 +5,9 @@
 
 /* * {
   box-sizing: border-box;
-} */
+}
 
-/* html, body {
+html, body {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -17,16 +17,14 @@
  * Canvas
  */
 
-.whiteboard {
+ .whiteboard {
   height: 100%;
   width: 100%;
   position: absolute;
-  /* left: 0;
+  left: 0;
   right: 0;
   bottom: 0;
-  top: 0; */
-  top: 0px;
-  left: 0px;
+  top: 0;
 }
 
 .colors {

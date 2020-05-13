@@ -1,19 +1,12 @@
 'use strict';
 
-
 (function() {
 
   var socket = io();
   var canvas = document.getElementsByClassName('whiteboard')[0];
   var colors = document.getElementsByClassName('color');
   var context = canvas.getContext('2d');
-  canvas.width = document.querySelector(".sketch-box").offsetWidth;
-  canvas.height = document.querySelector(".sketch-box").offsetHeight;
-  
-  var oy = Math.floor( document.querySelector(".sketch-box").getBoundingClientRect().y );
-  var ox = Math.floor( document.querySelector(".sketch-box").getBoundingClientRect().x );
-
-  console.log(context);
+var containerId=document.querySelector(".sketch-box");
   var current = {
     color: 'black'
   };
@@ -36,16 +29,17 @@
 
   socket.on('drawing', onDrawingEvent);
 
-  canvas.addEventListener('resize', onResize, false);
+  window.addEventListener('resize', onResize, false);
   onResize();
 
 
   function drawLine(x0, y0, x1, y1, color, emit){
     context.beginPath();
-    context.moveTo(x0, y0);
-    context.lineTo(x1, y1);
+    let rect = containerId.getBoundingClientRect();
+    context.moveTo(x0-rect.left, y0-rect.top);
+    context.lineTo(x1-rect.left, y1-rect.top);
     context.strokeStyle = color;
-    context.lineWidth = 2;
+    context.lineWidth = 3;
     context.stroke();
     context.closePath();
 
@@ -64,10 +58,8 @@
 
   function onMouseDown(e){
     drawing = true;
-    
-
-    current.x = (e.clientX) - ox || (e.touches[0].clientX) - ox;
-    current.y = (e.clientY ) - oy || (e.touches[0].clientY) - oy;
+    current.x = e.clientX||e.touches[0].clientX;
+    current.y = e.clientY||e.touches[0].clientY;
   }
 
   function onMouseUp(e){
@@ -103,17 +95,15 @@
   function onDrawingEvent(data){
     var w = canvas.width;
     var h = canvas.height;
-    var oy = document.querySelector(".sketch-box").getBoundingClientRect().y;
-    var ox = document.querySelector(".sketch-box").getBoundingClientRect().x;
-
-    drawLine(data.x0 * w - ox, data.y0 * h - oy, data.x1 * w - ox, data.y1 * h - oy, data.color);
+    drawLine(data.x0 * w, data.y0 * h, data.x1 * w, data.y1 * h, data.color);
   }
 
   // make the canvas fill its parent
   function onResize() {
-    canvas.width = document.querySelector("canvas").offsetWidth;
-    canvas.height = document.querySelector("canvas").offsetHeight;
-
+    canvas.width = document.querySelector(".sketch-box").offsetWidth;
+    canvas.height = document.querySelector(".sketch-box").offsetHeight;
+    //  canvas.width = window.innerWidth;
+    // canvas.height = window.innerHeight;
   }
 
 })();
