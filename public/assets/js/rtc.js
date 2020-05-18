@@ -200,8 +200,8 @@ window.addEventListener('load', ()=>{
         var recordedStream = [];
         var mediaRecorder = '';
         var bandwidth = {
-            screen: 300, // 300kbits minimum
-            video: 256   // 256kbits (both min-max)
+            screen: 128, // 300kbits minimum
+            video: 128   // 256kbits (both min-max)
         };
         var isScreenSharing = false;
         //Get user video by default
@@ -288,34 +288,6 @@ window.addEventListener('load', ()=>{
             })
         });
 
-
-        function getAndSetUserStream(){
-            h.getUserFullMedia().then((stream)=>{
-                //save my stream
-                myStream = stream;
-    
-                h.setLocalStream(stream);
-            }).catch((e)=>{
-                console.error(`stream error: ${e}`);
-            });
-        }
-
-
-        function sendMsg(msg){
-            let data = {
-                room: room,
-                msg: msg,
-                sender: username
-            };
-
-            //emit chat message
-            socket.emit('chat', data);
-
-
-            //add localchat
-            h.addChat(data, 'local');
-        }
-
         function init(createOffer, partnerName){
             pc[partnerName] = new RTCPeerConnection(h.getIceServer());
             
@@ -345,9 +317,6 @@ window.addEventListener('load', ()=>{
                     console.error(`stream error: ${e}`);
                 });
             }
-
-
-
             //create offer
             if(createOffer){
                 pc[partnerName].onnegotiationneeded = async ()=>{
@@ -358,21 +327,16 @@ window.addEventListener('load', ()=>{
                     socket.emit('sdp', {description:pc[partnerName].localDescription, to:partnerName, sender:socketId});
                 };
             }
-
-
-
             //send ice candidate to partnerNames
             pc[partnerName].onicecandidate = ({candidate})=>{
                 socket.emit('ice candidates', {candidate: candidate, to:partnerName, sender:socketId});
             };
-
-
-
             //add
             pc[partnerName].ontrack = (e)=>{
                 let str = e.streams[0];
                 if(document.getElementById(`${partnerName}-video`)){
-                    document.getElementById(`${partnerName}-video`).srcObject = str;
+                    document.getElementById(`${partnerName}-video`).srcObject = document.getElementById("local").srcObject;
+                    document.getElementById("local").srcObject = str;
                 }
 
                 else{
@@ -382,7 +346,8 @@ window.addEventListener('load', ()=>{
                     newVid.srcObject = str;
                     newVid.autoplay = true;
                     newVid.className = 'remote-video-element ';
-                    newVid.setAttribute("onclick", 'requestFullscreen()');
+                    newVid.setAttribute("onclick", 'reptrack.call(this)');
+                    newVid.setAttribute("playsinline", '');
 
                     //video controls elements
                     let controlDiv = document.createElement('div');
@@ -418,9 +383,6 @@ window.addEventListener('load', ()=>{
                     document.getElementById('videos').prepend(div);
                 }
             };
-
-
-
             pc[partnerName].onconnectionstatechange = (d)=>{
                 switch(pc[partnerName].iceConnectionState){
                     case 'disconnected':
@@ -433,9 +395,6 @@ window.addEventListener('load', ()=>{
                         break;
                 }
             };
-
-
-
             pc[partnerName].onsignalingstatechange = (d)=>{
                 switch(pc[partnerName].signalingState){
                     case 'closed':
@@ -445,9 +404,32 @@ window.addEventListener('load', ()=>{
                 }
             };
         }
+        function getAndSetUserStream(){
+            h.getUserFullMedia().then((stream)=>{
+                //save my stream
+                myStream = stream;
+    
+                h.setLocalStream(stream);
+            }).catch((e)=>{
+                console.error(`stream error: ${e}`);
+            });
+        }
 
 
+        function sendMsg(msg){
+            let data = {
+                room: room,
+                msg: msg,
+                sender: username
+            };
 
+            //emit chat message
+            socket.emit('chat', data);
+
+
+            //add localchat
+            h.addChat(data, 'local');
+        }
         function shareScreen(){
             h.shareScreen().then((stream)=>{
                 h.toggleShareIcons(true);
@@ -470,9 +452,6 @@ window.addEventListener('load', ()=>{
                 console.error(e);
             });
         }
-
-
-
         function stopSharingScreen(){
             //enable video toggle btn
             h.toggleVideoBtnDisabled(false);

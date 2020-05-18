@@ -48,15 +48,14 @@ app.get("/room", function (req, res) {
 	} );
 });
 app.get("/leaveroom", (req,res)=>{
-
 	request.post({
 			"headers": { "content-type": "application/json" },
-			"url": "http://localhost:64174/api/IsoTalks/LeaveRoom",
+			"url": "http://isotalks.com:7878/api/IsoTalks/LeaveRoom",
 			"body": JSON.stringify({
 					"Email": req.session.email ,
 					"RoomId": req.session.roomNo
-			})
-	}, (error, response, body) => {
+			})},
+			 (error, response, body) => {
 			if(error) {
 					return console.dir(error);
 			}
@@ -70,8 +69,8 @@ app.get("/leaveroom", (req,res)=>{
 
 io.of("/stream").on("connection", stream);
 io.on('connection', onConnection);
-
-server.listen(PORT, () => {
+var Host='192.168.43.203'
+server.listen(PORT,Host, () => {
 	console.log("server running on https://localhost:" + PORT);
 });
 

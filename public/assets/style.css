@@ -83,14 +83,15 @@ body {
   display: flex;
   -ms-flex-wrap: wrap;
   flex-wrap: nowrap;
-  justify-content: space-between;
+  justify-content: flex-start;
   overflow: auto;
 }
 .videmax-card {
   border-radius: 10px;
+  border: 1px solid lightgray;
   padding: 5px;
   display: flex;
-  height: 70px;
+  height: 90px;
   margin: 0px 8px;
   background-color: #fff;
   box-shadow: 0px 3px 6px #00000033;
@@ -384,7 +385,7 @@ footer {
   max-height: 355px;
 }
 .remote-video-element {
-    height: 60px;
+    height: 80px;
     border-radius: 6px;
     margin-right: 5px;
 }

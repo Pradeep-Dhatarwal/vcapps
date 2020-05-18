@@ -59,16 +59,16 @@ export default {
                 // }
                 
                 video: {
-                    width: { min: 320, ideal: 480, max: 858 },
-                    height: { min: 200, ideal: 360, max: 480 },
-                    frameRate: { ideal: 24,min:5, max: 30 }
+                    width:176,
+                    height: 144,
+                    frameRate: { ideal: 20,min:5, max: 35 }
                 },
                 audio: {
                     echoCancellation: true,
                     noiseSuppression: true,
                     sampleRate:44100,
                     sampleSize:8,
-                    volume:0,
+                    volume:1,
                     channelCount:2,
                     autoGainControl:true,
                     latency:120
@@ -137,6 +137,25 @@ export default {
                         "turn:eu-turn4.xirsys.com:3478?transport=tcp"
                     ]
                 }
+             
+                    // {
+                    //     urls: ["stun:stun2.l.google.com:19302", "stun:eu-turn4.xirsys.com"],
+                    // },
+                    // {
+                    //     username: "YzYNCouZM1mhqhmseWk6",
+                    //     credential: "YzYNCouZM1mhqhmseWk6",
+                    //     urls: ["turn:13.250.13.83:3478?transport=udp"],
+                    // },
+                    // {
+                    //     username: "homeo",
+                    //     credential: "homeo",
+                    //     url: "turn:turn.bistri.com:80",
+                    // },
+                    // {
+                    //     username: "webrtc",
+                    //     credential: "webrtc",
+                    //     url: "turn:turn.anyfirewall.com:443?transport=tcp",
+                    // },
             ]
         };
     },

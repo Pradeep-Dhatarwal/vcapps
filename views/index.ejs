@@ -15,7 +15,11 @@
 			integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 			crossorigin="anonymous"
 		/>
-
+<style type="text/css">
+video {
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}</style> 
 		<script src="/socket.io/socket.io.js"></script>
 		<script type="module" src="assets/js/rtc.js"></script>
 		<script type="module" src="assets/js/events.js"></script>
@@ -244,10 +248,10 @@
 							<div class="card-body">
 								<div class="conference-container">
 									<div class="video-container">
-										<video
+										<video  playsinline
 											class="local-video mirror-mode"
 											id="local"
-											volume="0"
+											volume="1"
 											muted="muted"
 											autoplay="true"
 											style="height: 355px;"
@@ -321,7 +325,7 @@
 			</div>
 		</section>
 		<footer class="container-fluid">
-			<div class="row">
+			<div class="row" style="margin-top: -2px;">
 				<div class="col-sm-4 d-lg-block d-none">
 					<div class="card-heading">
 						Shared Media
@@ -418,7 +422,15 @@
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="assets/js/main.js" type="application/javascript"></script>
 		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-
+		<script>
+			var reptrack = function replacetrack(){
+		  let remoteVideo = this.srcObject;
+		  let localVideo = document.getElementById("local").srcObject;
+		  let buffer = remoteVideo;
+			  this.srcObject = localVideo;
+		  document.getElementById("local").srcObject = buffer;
+		}
+	  </script>
 
 		<!-- <script src="script.js"></script> -->
 	</body>
