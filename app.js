@@ -29,9 +29,11 @@ app.use(favicon(path.join(__dirname, "favicon.ico")));
 function onConnection(socket){
 	socket.on('drawing', (data) => socket.broadcast.emit('drawing', data));
 	}
-app.get("/", (req,res){
-	res.send(`<a href="/room?wEZ0H4K0XcRq3ztjxewfeGbyPSOMfkJC3fDjU4Al9maaevL5E8MkdceNvIrsdK7ypTvCHk06nKKs5obbvRdvgTv1Ro1yPeKCeslbzZMK0xtdIr1LDusVH5aVbZGV6Kkv4gp29UfwBo02fvVUHp8zdg=="> <h1> go here</h1> </a>`)
+	
+app.get("/", (req,res)=>{
+	res.send('<a href="/room?wEZ0H4K0XcRq3ztjxewfeGbyPSOMfkJC3fDjU4Al9maaevL5E8MkdceNvIrsdK7ypTvCHk06nKKs5obbvRdvgTv1Ro1yPeKCeslbzZMK0xtdIr1LDusVH5aVbZGV6Kkv4gp29UfwBo02fvVUHp8zdg=="> <h1> go here</h1> </a>');
 });
+
 app.get("/room", function (req, res) {
 	let pageUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
 	let qs = pageUrl.split("?")[1];
