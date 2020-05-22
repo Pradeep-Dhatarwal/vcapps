@@ -271,16 +271,21 @@ video {
 						<div class="sketch-box">
 							<div class="sketch-header">
 								<div class="card-heading">
-									White Board
+								white board
 								</div>
-									<span class="material-icons btn btn-sm card-icon">
+					
+								<button id="button_pencil" id="drawpolyline" style="float: right;" type="button" class="btn btn-primary">Draw</button>
+								<button id="button_eraser" style="float: right;" type="button" class="btn btn-primary">Erase</button>
+							 <button id="button_rectangle" style="float: right;" type="button" class="btn btn-primary">Shape</button> -->
+								<input type="color" id="input_color" value="Color">
+								<span class="material-icons btn btn-sm card-icon">
 									clear
 								</span>
 							</div>
-							<div class="card-body">
-								<canvas class="whiteboard" ></canvas>
-
-							</div>
+							<!-- <div class="card-body"> -->
+							
+										<canvas id="canvas" style="width: 415px;height: 352px;     background-color: snow;"></canvas>
+							<!-- </div> -->
 						</div>
 					</div>
 					<div class="col-sm-4 my-2">
@@ -419,9 +424,33 @@ video {
 			integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 			crossorigin="anonymous"
 		></script>
+		<link rel="stylesheet" type="text/css" href="assets/reset.css" />
+		<link rel="stylesheet" type="text/css" href="assets/style.css" />
+		
+		<script src="assets/js/libs/jquery-1.4.2.min.js" type="application/javascript"></script>
+		<script src="assets/js/libs/jquery-ui-1.8.custom.min.js" type="application/javascript"></script>
+		<script src="assets/js/libs/console.js" type="application/javascript"></script>
+		<script src="assets/js/libs/base64.js" type="application/javascript"></script>
+		<script src="assets/js/libs/canvas2image.js" type="application/javascript"></script>
+		<script src="assets/js/whiteboard.js" type="application/javascript"></script>
+		<script src="assets/js/whiteboardui.jquery.js" type="application/javascript"></script>
+	<script type="text/javascript">//<![CDATA[
+	// Init the script after document ready
+	$(document).ready(function(){
+		WhiteboardUi.init($("#canvas"));
+		// var color='';
+	
+		// // document.getElementById("input_color").onchange = change;
+		// // function change(e){
+		// // 	var canvas = $('#canvas');
+		// // 	canvas.setStrokeStyle(this.value);
+		// // }
+	});
+	</script>
+
 		<script src="/socket.io/socket.io.js"></script>
-		<script src="assets/js/main.js" type="application/javascript"></script>
-		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+		<!-- <script src="assets/js/main.js" type="application/javascript"></script> -->
+		<!-- <link rel="stylesheet" type="text/css" href="assets/css/style.css"> -->
 		<script>
 			var reptrack = function replacetrack(){
 		  let remoteVideo = this.srcObject;

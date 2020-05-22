@@ -9,7 +9,6 @@ window.addEventListener('load', ()=>{
             if (!!navigator.mozGetUserMedia || !bandwidth) {
                 return sdp;
             }
-    
             if (isScreen) {
                 if (!bandwidth.screen) {
                     console.warn('It seems that you are not using bandwidth for screen. Screen sharing is expected to fail.');
@@ -335,8 +334,9 @@ window.addEventListener('load', ()=>{
             pc[partnerName].ontrack = (e)=>{
                 let str = e.streams[0];
                 if(document.getElementById(`${partnerName}-video`)){
-                    document.getElementById(`${partnerName}-video`).srcObject = document.getElementById("local").srcObject;
-                    document.getElementById("local").srcObject = str;
+                    document.getElementById(`${partnerName}-video`).srcObject =str;
+                    //  document.getElementById("local").srcObject;
+                    // document.getElementById("local").srcObject = str;
                 }
 
                 else{
