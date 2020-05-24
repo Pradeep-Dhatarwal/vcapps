@@ -15,11 +15,12 @@
 			integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 			crossorigin="anonymous"
 		/>
-<style type="text/css">
-video {
-  -webkit-transform: scaleX(-1);
-  transform: scaleX(-1);
-}</style> 
+		<style type="text/css">
+			video {
+				-webkit-transform: scaleX(-1);
+				transform: scaleX(-1);
+			}
+		</style>
 		<script src="/socket.io/socket.io.js"></script>
 		<script type="module" src="assets/js/rtc.js"></script>
 		<script type="module" src="assets/js/events.js"></script>
@@ -30,7 +31,6 @@ video {
 			crossorigin="anonymous"
 		></script>
 
-		
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -156,7 +156,7 @@ video {
 
 					<div class="duration">
 						<span>Duration:</span>
-						<span style="color: rgba(126, 126, 126, 1);">09:00</span>
+						<span style="color: rgba(126, 126, 126, 1);" id="minutes">00</span>:<span style="color: rgba(126, 126, 126, 1);" id="seconds">00</span>
 					</div>
 					<div class="meetid">
 						<span>Meeting id:</span>
@@ -169,7 +169,6 @@ video {
 			<div class="container-fluid">
 				<div class="row" id="main-section">
 					<div class="col-sm-12 videmax-card-list" id="videos">
-		
 						<!-- <div class="videmax-card" >
               <div class="videmax-icons">
                 <div class="icon btn btn-default">
@@ -248,14 +247,15 @@ video {
 							<div class="card-body">
 								<div class="conference-container">
 									<div class="video-container">
-										<video  playsinline
+										<video
+											playsinline
 											class="local-video mirror-mode"
 											id="local"
 											volume="1"
 											muted="muted"
 											autoplay="true"
 											style="height: 355px;"
-											onClick = "requestFullscreen()"
+											onClick="requestFullscreen()"
 										></video>
 									</div>
 								</div>
@@ -271,21 +271,41 @@ video {
 						<div class="sketch-box">
 							<div class="sketch-header">
 								<div class="card-heading">
-								white board
+									white board
 								</div>
-					
-								<button id="button_pencil" id="drawpolyline" style="float: right;" type="button" class="btn btn-primary">Draw</button>
-								<button id="button_eraser" style="float: right;" type="button" class="btn btn-primary">Erase</button>
-							 <button id="button_rectangle" style="float: right;" type="button" class="btn btn-primary">Shape</button> -->
-								<input type="color" id="input_color" value="Color">
+
 								<span class="material-icons btn btn-sm card-icon">
 									clear
 								</span>
 							</div>
-							<!-- <div class="card-body"> -->
-							
-										<canvas id="canvas" style="width: 415px;height: 352px;     background-color: snow;"></canvas>
-							<!-- </div> -->
+							<!-- <div class="Whiteboard-icons-left">
+								<div class="icon-small btn btn-primary" id="button_pencil" title="Draw">
+									<span class="material-icons centered">
+										gesture
+									</span>
+								</div>
+								<div class="icon-small btn location" id="button_eraser" title="erase">
+									<span class="material-icons centered">
+										delete
+									</span>
+								</div>
+								<div class="icon-small btn btn-primary" id="button_rectangle" title="shapes">
+									<span class="material-icons centered">
+										crop_square
+									</span>
+								</div>
+								<div class="icon-small btn btn-light" title="color">
+									<input type="color" style="border:0px solid" class="centered input-group" id="input_color" value="Color">
+								</div>
+							</div>
+							<div class="Whiteboard-icons-right">
+								<div class="icon-small btn btn-primary" id="addCanvas" title="shapes">
+									<span class="material-icons centered">
+										add
+									</span>
+								</div>
+							</div> -->
+							<canvas id="canvas" style="width: 100%; height: 100%; background-color: snow;"></canvas>
 						</div>
 					</div>
 					<div class="col-sm-4 my-2">
@@ -376,7 +396,7 @@ video {
 										chat
 									</span>
 								</div>
-								<div class="icon-big btn  location">
+								<div class="icon-big btn location">
 									<a href="/leaveroom">
 										<span class="material-icons centered">
 											close
@@ -409,6 +429,10 @@ video {
 				</div>
 			</div>
 		</footer>
+		<div class="fluid-container canvas-large" style="display: none;">
+			<canvas id="canvasLg" style="height: 100%; width: 100%;"></canvas>
+		</div>
+
 		<script
 			src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
 			integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
@@ -426,7 +450,7 @@ video {
 		></script>
 		<link rel="stylesheet" type="text/css" href="assets/reset.css" />
 		<link rel="stylesheet" type="text/css" href="assets/style.css" />
-		
+
 		<script src="assets/js/libs/jquery-1.4.2.min.js" type="application/javascript"></script>
 		<script src="assets/js/libs/jquery-ui-1.8.custom.min.js" type="application/javascript"></script>
 		<script src="assets/js/libs/console.js" type="application/javascript"></script>
@@ -434,33 +458,83 @@ video {
 		<script src="assets/js/libs/canvas2image.js" type="application/javascript"></script>
 		<script src="assets/js/whiteboard.js" type="application/javascript"></script>
 		<script src="assets/js/whiteboardui.jquery.js" type="application/javascript"></script>
-	<script type="text/javascript">//<![CDATA[
-	// Init the script after document ready
-	$(document).ready(function(){
-		WhiteboardUi.init($("#canvas"));
-		// var color='';
-	
-		// // document.getElementById("input_color").onchange = change;
-		// // function change(e){
-		// // 	var canvas = $('#canvas');
-		// // 	canvas.setStrokeStyle(this.value);
-		// // }
-	});
-	</script>
+		<script src="assets/js/main.js" type="application/javascript"></script>
+		<script type="text/javascript">
+			//<![CDATA[
+			// Init the script after document ready
+			$(document).ready(function () {
+				$("#canvas").parent().append(whiteboardControls);
+				$("#canvas").parent().append(expandWhiteboard);
+				WhiteboardUi.init($("#canvas"));
 
-		<script src="/socket.io/socket.io.js"></script>
-		<!-- <script src="assets/js/main.js" type="application/javascript"></script> -->
-		<!-- <link rel="stylesheet" type="text/css" href="assets/css/style.css"> -->
+				// var color='';
+				// // document.getElementById("input_color").onchange = change;
+				// // function change(e){
+				// // 	var canvas = $('#canvas');
+				// // 	canvas.setStrokeStyle(this.value);
+				// // }
+			});
+		</script>
 		<script>
-			var reptrack = function replacetrack(){
-		  let remoteVideo = this.srcObject;
-		  let localVideo = document.getElementById("local").srcObject;
-		  let buffer = remoteVideo;
-			  this.srcObject = localVideo;
-		  document.getElementById("local").srcObject = buffer;
-		}
-	  </script>
-
+			var whiteboardControls = `<div class="Whiteboard-icons-left" id="whiteboardControls">
+								<div class="icon-small btn btn-primary" id="button_pencil" title="Draw">
+									<span class="material-icons centered">
+										gesture
+									</span>
+								</div>
+								<div class="icon-small btn location" id="button_eraser" title="erase">
+									<span class="material-icons centered">
+										delete
+									</span>
+								</div>
+								<div class="icon-small btn btn-primary" id="button_rectangle" title="shapes">
+									<span class="material-icons centered">
+										crop_square
+									</span>
+								</div>
+								<div class="icon-small btn btn-light" title="color">
+									<input type="color" style="border:0px solid" class="centered input-group" id="input_color" value="Color">
+								</div>
+							</div>`;
+			var expandWhiteboard = `<div class="Whiteboard-icons-right" id="expandWhiteboard">
+								<div class="icon-small btn btn-primary" id="addCanvas" onclick="addcanvas()" title="shapes">
+									<span class="material-icons centered">
+										add
+									</span>
+								</div>
+							</div>`;
+			var removeWhiteboard = `<div class="Whiteboard-icons-right" id="removeWhiteboard">
+								<div class="icon-small btn btn-primary" id="removeCanvas" onclick="removecanvas()" title="shapes">
+									<span class="material-icons centered">
+										clear
+									</span>
+								</div>
+							</div>`;
+			function addcanvas() {
+				$("#canvas").parent().find("#whiteboardControls").remove();
+				$("#canvas").parent().find("#expandWhiteboard").remove();
+				$("#canvasLg").parent().append(whiteboardControls);
+				$("#canvasLg").parent().append(removeWhiteboard);
+				$(".canvas-large").show("slow", () => {
+					WhiteboardUi.init($("#canvasLg"));
+				});
+			}
+			function removecanvas() {
+				$("#canvasLg").parent().find("#whiteboardControls").remove();
+				$("#canvasLg").parent().find("#removeWhiteboard").remove();
+				$("#canvas").parent().append(whiteboardControls);
+				$("#canvas").parent().append(expandWhiteboard);
+				$(".canvas-large").hide("slow");
+			}
+			var reptrack = function replacetrack() {
+				let remoteVideo = this.srcObject;
+				let localVideo = document.getElementById("local");
+				localVideo.toggleAttribute("muted");
+				let buffer = remoteVideo;
+				this.srcObject = localVideo.srcObject;
+				document.getElementById("local").srcObject = buffer;
+			};
+		</script>
 		<!-- <script src="script.js"></script> -->
 	</body>
 </html>

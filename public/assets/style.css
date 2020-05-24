@@ -319,6 +319,16 @@ input:focus .chat-input-field.form-control-sm {
   margin: 0px 4px;
   box-shadow: 0px 2px 2px #00000033;
 }
+.icon-small {
+  width: 34px;
+  border-radius: 50px;
+  height: 34px;
+  position: relative;
+  font-size:24px;
+  text-align: center;
+  margin: 0px 4px;
+  box-shadow: 0px 2px 2px #00000033;
+}
 .btn-big {
   border-radius: 50px;
   height: 50px;
@@ -388,4 +398,22 @@ footer {
     height: 80px;
     border-radius: 6px;
     margin-right: 5px;
+}
+.Whiteboard-icons-left{
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+.Whiteboard-icons-right{
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+.canvas-large{
+  position: absolute;
+  top: 0px;
+  bottom:0px;
+  left:0px;
+  right: 0px;
+  background-color: #fff;
 }
