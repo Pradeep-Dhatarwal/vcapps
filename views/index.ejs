@@ -515,7 +515,7 @@
 				$("#canvas").parent().find("#expandWhiteboard").remove();
 				$("#canvasLg").parent().append(whiteboardControls);
 				$("#canvasLg").parent().append(removeWhiteboard);
-				$(".canvas-large").show("slow", () => {
+				$(".canvas-large").slideDown("slow", () => {
 					WhiteboardUi.init($("#canvasLg"));
 				});
 			}
@@ -524,7 +524,7 @@
 				$("#canvasLg").parent().find("#removeWhiteboard").remove();
 				$("#canvas").parent().append(whiteboardControls);
 				$("#canvas").parent().append(expandWhiteboard);
-				$(".canvas-large").hide("slow");
+				$(".canvas-large").slideUp("slow");
 			}
 			var reptrack = function replacetrack() {
 				let remoteVideo = this.srcObject;
